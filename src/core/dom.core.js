@@ -1,11 +1,33 @@
 class DOM {
-  constructor() {
+  constructor(selector) {
+    this.$el = typeof selector === 'string' ? document.querySelector(selector) : selector;
+  }
 
+  html(template) {
+    if (typeof template === 'string') {
+      this.$el.innerHTML = template;
+    }
+
+    return this.$el.outerHTML.trim();
+  }
+
+  clear() {
+    this.html('');
+    return this;
+  }
+
+  append(node) {
+    if (node instanceof DOM) {
+      node = node.$el;
+    }
+
+    this.$el.append(node);
+    return this;
   }
 }
 
-export function $() {
-  return new DOM();
+export function $(selector) {
+  return new DOM(selector);
 }
 
 $.create = (tagName, classes='') => {
@@ -14,5 +36,5 @@ $.create = (tagName, classes='') => {
     el.classList.add(classes);
   }
 
-  return el;
+  return $(el);
 };

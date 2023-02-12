@@ -2,7 +2,7 @@ import {$} from '../../core/dom.core';
 
 export class App {
   constructor(selector, options) {
-    this.$el = document.querySelector(selector);
+    this.$el = $(selector);
     this.components = options.components;
   }
 
@@ -12,10 +12,10 @@ export class App {
     this.components.forEach((Component) => {
       const $el = $.create('div', Component.cn);
 
-      $el.classList.add(Component.cn);
       const component = new Component($el);
-      $el.innerHTML = component.toHTML();
+      $el.html(component.toHTML());
 
+      console.log($root);
       $root.append($el);
     });
 
