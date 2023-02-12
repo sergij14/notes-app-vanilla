@@ -1,3 +1,5 @@
+import {$} from '../../core/dom.core';
+
 export class App {
   constructor(selector, options) {
     this.$el = document.querySelector(selector);
@@ -5,13 +7,16 @@ export class App {
   }
 
   getRoot() {
-    const $root = document.createElement('div');
-    $root.classList.add('app');
+    const $root = $.create('div', 'app');
 
     this.components.forEach((Component) => {
-      const component = new Component();
+      const $el = $.create('div', Component.cn);
 
-      $root.insertAdjacentHTML('beforeend', component.toHTML());
+      $el.classList.add(Component.cn);
+      const component = new Component($el);
+      $el.innerHTML = component.toHTML();
+
+      $root.append($el);
     });
 
     return $root;
