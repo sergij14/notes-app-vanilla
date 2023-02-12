@@ -9,7 +9,7 @@ export class App {
   getRoot() {
     const $root = $.create('div', 'app');
 
-    this.components.forEach((Component) => {
+    this.components = this.components.map((Component) => {
       const $el = $.create('div', Component.cn);
 
       const component = new Component($el);
@@ -17,6 +17,8 @@ export class App {
 
       console.log($root);
       $root.append($el);
+
+      return component;
     });
 
     return $root;
@@ -24,5 +26,6 @@ export class App {
 
   render() {
     this.$el.append(this.getRoot());
+    this.components.forEach((component) => component.init());
   }
 }
