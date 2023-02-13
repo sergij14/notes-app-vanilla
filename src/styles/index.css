@@ -12,10 +12,10 @@
   }
 
   .app-notes-list {
-    @apply flex py-2 space-x-6;
+    @apply py-2;
   }
 
-  .app-notes-list > div {
+  .app-notes-list > div > div {
     max-width: calc(100% / 4);
     flex: 0 0 calc(100% / 4);
   }

@@ -27,6 +27,18 @@ export class NotesList extends AppComponent {
     });
   }
 
+  init() {
+    super.init();
+
+    this.$notesContainer = document.querySelector(
+        '[data-type=\'notes-container\']'
+    );
+    this.$storeSubscribe((state) => {
+      console.log(state);
+      this.renderNotes(state.notes);
+    });
+  }
+
   toHTML() {
     return getNotesListTemplate(notesData);
   }
@@ -37,5 +49,23 @@ export class NotesList extends AppComponent {
     if (type === 'note-edit-btn') {
       this.$emit('notes-list: edit-note', id);
     }
+  }
+
+  renderNotes(notes) {
+    this.$notesContainer.innerHTML = notes.map(
+        ({title, description, id}) =>
+          `
+            <div class="p-4 rounded-lg shadow-lg bg-white">
+                <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">${title}</h5>
+                <p class="text-gray-700 text-base mb-4">
+                    ${description}
+                </p>
+                <div class="flex space-x-2">
+                    <button data-id="${id}" data-type="note-edit-btn">Edit</button>
+                    <button data-id="${id}" data-type="note-delete-btn">Delete</button>
+                </div>
+            </div>
+        `
+    ).join('');
   }
 }

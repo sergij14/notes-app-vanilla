@@ -22,9 +22,6 @@ export class HeaderForm extends AppComponent {
     this.$subscribe('notes-list: edit-note', (noteId) => {
       this.openForm();
     });
-    this.$storeSubscribe((state) => {
-      console.log(state);
-    });
   }
 
   toHTML() {
@@ -64,10 +61,10 @@ export class HeaderForm extends AppComponent {
     this.$form.innerHTML = `
       <input value="${
   data?.title || ''
-}" class="form-input" type="text" name="note_title" placeholder="Note title" />
+}" class="form-input" type="text" name="title" placeholder="Note title" />
       <textarea value="${
   data?.description || ''
-}" class="form-input resize-y max-h-56" name="note_description" placeholder="Note description"></textarea>
+}" class="form-input resize-y max-h-56" name="description" placeholder="Note description"></textarea>
       <button class="form-btn self-center" type="submit">Submit</button>
     `;
   }
