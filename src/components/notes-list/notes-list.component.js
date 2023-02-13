@@ -35,7 +35,7 @@ export class NotesList extends AppComponent {
     const {type, id} = evt.target.dataset;
 
     if (type === 'note-edit-btn') {
-      this.emitter.emit('NotesList: edit-note', id);
+      this.$emit('notes-list: edit-note', id);
     }
   }
 }
