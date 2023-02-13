@@ -1,13 +1,13 @@
 import {AppComponent} from '../../core/app-component.core';
 import {generateID, shallowEqual} from '../../core/utils.core';
-import {getHeaderFormTemplate} from './header-form.template';
+import {getNoteFormTemplate} from './note-form.template';
 
-export class HeaderForm extends AppComponent {
-  static cn = 'app-header';
+export class NoteForm extends AppComponent {
+  static cn = 'app-note-form';
 
   constructor($root, options) {
     super($root, {
-      name: 'HeaderForm',
+      name: 'NoteForm',
       listeners: ['submit', 'mousedown'],
       ...options,
     });
@@ -21,10 +21,27 @@ export class HeaderForm extends AppComponent {
     this.$subscribe('notes-list: edit-note', (noteID) => {
       this.openForm(noteID);
     });
+    this.$subscribe('header: create-note', () => {
+      this.openForm();
+    });
   }
 
   toHTML() {
-    return getHeaderFormTemplate();
+    return getNoteFormTemplate();
+  }
+
+  openForm(noteID) {
+    this.noteToEdit = this.store
+        .getState()
+        .notes.find((note) => note.id === noteID);
+
+    if (this.noteToEdit) {
+      delete this.noteToEdit.id;
+      this.$form.attr('data-edit', noteID);
+    }
+
+    this.renderFields(this.noteToEdit);
+    this.$formOverlay.removeClass('hidden');
   }
 
   saveNote(action) {
@@ -60,20 +77,6 @@ export class HeaderForm extends AppComponent {
     }
   }
 
-  openForm(noteID) {
-    this.noteToEdit = this.store
-        .getState()
-        .notes.find((note) => note.id === noteID);
-
-    if (this.noteToEdit) {
-      delete this.noteToEdit.id;
-      this.$form.attr('data-edit', noteID);
-    }
-
-    this.renderFields(this.noteToEdit);
-    this.$formOverlay.removeClass('hidden');
-  }
-
   closeForm() {
     this.clearFields();
     this.$form.removeAttr('data-edit');
@@ -83,14 +86,14 @@ export class HeaderForm extends AppComponent {
   renderFields(data) {
     this.$form.html('');
     this.$form.html(`
-      <input value="${
+        <input value="${
   data?.title || ''
 }" class="form-input" type="text" name="title" placeholder="Note title" />
-      <textarea class="form-input resize-y max-h-56" name="description" placeholder="Note description">${
+        <textarea class="form-input resize-y max-h-56" name="description" placeholder="Note description">${
   data?.description || ''
 }</textarea>
-      <button class="form-btn self-center" type="submit">Submit</button>
-    `);
+        <button class="form-btn self-center" type="submit">Submit</button>
+      `);
   }
 
   clearFields() {
