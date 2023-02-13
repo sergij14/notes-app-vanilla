@@ -15,10 +15,8 @@ export class HeaderForm extends AppComponent {
   init() {
     super.init();
 
-    this.$formOverlay = document.querySelector(
-        '[data-type=\'note-form-overlay\']'
-    );
-    this.$form = this.$formOverlay.querySelector('form');
+    this.$formOverlay = this.$root.find('[data-type=\'note-form-overlay\']');
+    this.$form = this.$root.find('form');
     this.$subscribe('notes-list: edit-note', (noteID) => {
       this.openForm(noteID);
     });

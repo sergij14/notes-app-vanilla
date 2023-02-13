@@ -16,6 +16,14 @@ class DOM {
     return this;
   }
 
+  findAll(selector) {
+    return this.$el.querySelectorAll(selector);
+  }
+
+  find(selector) {
+    return this.$el.querySelector(selector);
+  }
+
   append(node) {
     if (node instanceof DOM) {
       node = node.$el;
