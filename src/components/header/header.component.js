@@ -1,4 +1,5 @@
 import {AppComponent} from '../../core/app-component.core';
+import {getHeaderTemplate} from './header.template';
 
 export class Header extends AppComponent {
     static cn = 'app-header'
@@ -7,19 +8,30 @@ export class Header extends AppComponent {
       super($root, {
         name: 'Header',
         listeners: [
-          'input',
+          'submit',
+          'click',
         ],
       });
     }
 
     toHTML() {
-      return `
-        <h1>header</h1>
-        <input type="text" />
-      `;
+      return getHeaderTemplate();
     }
 
-    onInput(evt) {
-      console.log('header:event', evt.target.value);
+    onSubmit(evt) {
+      evt.preventDefault();
+      console.log('submitted');
+    }
+
+    onClick(evt) {
+      const $formOverlay = document.querySelector('[data-id=\'note-form-overlay\']');
+
+      if (evt.target.dataset.id === 'note-form-btn') {
+        $formOverlay.classList.remove('hidden');
+      }
+
+      if (evt.target.dataset.id === 'note-form-overlay') {
+        $formOverlay.classList.add('hidden');
+      }
     }
 }
