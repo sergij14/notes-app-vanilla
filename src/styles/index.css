@@ -4,10 +4,10 @@
 
 @layer components {
   .app {
-    @apply p-4 max-w-6xl mx-auto;
+    @apply px-4 max-w-6xl mx-auto;
   }
   .app-header {
-    @apply flex justify-between py-2 mb-4 border-b-2 border-gray-300;
+    @apply flex justify-between items-center py-4 mb-4 border-b-2 border-gray-300;
   }
   .app-notes-list {
     @apply flex py-2;
