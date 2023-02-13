@@ -7,8 +7,6 @@ const initialState = storage('notes-state') ?
     notes: [],
   };
 
-console.log(initialState);
-
 export const store = createStore(rootReducer, initialState);
 
 store.subscribe((state) => {

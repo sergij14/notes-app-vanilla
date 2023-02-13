@@ -1,4 +1,5 @@
 import {AppComponent} from '../../core/app-component.core';
+import {generateID, shallowEqual} from '../../core/utils.core';
 import {getHeaderFormTemplate} from './header-form.template';
 
 export class HeaderForm extends AppComponent {
@@ -26,24 +27,27 @@ export class HeaderForm extends AppComponent {
     return getHeaderFormTemplate();
   }
 
+  saveNote(action) {
+    this.$storeDispatch(action);
+    this.closeForm();
+  }
+
   onSubmit(evt) {
     evt.preventDefault();
     const formData = new FormData(evt.target);
     const formProps = Object.fromEntries(formData);
     const editID = this.$form.attr('data-edit');
 
-    if (editID) {
-      this.$storeDispatch({
-        type: 'EDIT_NOTE',
-        payload: {...formProps, id: editID},
-      });
-    } else {
-      this.$storeDispatch({
-        type: 'SAVE_NOTE',
-        payload: {...formProps, id: generateID()},
-      });
+    const isValid = formValidator(formProps, editID ? this.noteToEdit : null);
+
+    const action = {
+      type: editID ? 'EDIT_NOTE' : 'SAVE_NOTE',
+      payload: {...formProps, id: editID || generateID()},
+    };
+
+    if (isValid) {
+      return this.saveNote(action);
     }
-    this.closeForm();
   }
 
   onMousedown(evt) {
@@ -57,15 +61,16 @@ export class HeaderForm extends AppComponent {
   }
 
   openForm(noteID) {
-    const note = this.store
+    this.noteToEdit = this.store
         .getState()
-        ?.notes?.find((note) => note.id === noteID);
+        .notes.find((note) => note.id === noteID);
 
-    if (note) {
+    if (this.noteToEdit) {
+      delete this.noteToEdit.id;
       this.$form.attr('data-edit', noteID);
     }
 
-    this.renderFields(note);
+    this.renderFields(this.noteToEdit);
     this.$formOverlay.removeClass('hidden');
   }
 
@@ -93,8 +98,9 @@ export class HeaderForm extends AppComponent {
   }
 }
 
-function generateID() {
-  return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
+function formValidator(formData, noteToEdit) {
+  if (noteToEdit) {
+    return !shallowEqual(formData, noteToEdit);
+  }
+  return Object.values(formData).every((val) => val.length);
 }
