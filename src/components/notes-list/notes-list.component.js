@@ -46,16 +46,18 @@ export class NotesList extends AppComponent {
         .map(
             ({title, description, id}) =>
               `
-            <div class="p-4 rounded-lg shadow-lg bg-white">
-                <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">${title}</h5>
-                <p class="text-gray-700 text-base mb-4">
-                    ${description}
-                </p>
-                <div class="flex space-x-2">
-                    <button class="edit-btn" data-id="${id}" data-type="note-edit-btn">Edit</button>
-                    <button class="delete-btn" data-id="${id}" data-type="note-delete-btn">Delete</button>
+              <div class="px-4">
+                <div class="p-4 rounded-lg shadow-lg bg-white">
+                    <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">${title}</h5>
+                    <p class="text-gray-700 text-base mb-4">
+                        ${description}
+                    </p>
+                    <div class="flex space-x-2">
+                        <button class="edit-btn" data-id="${id}" data-type="note-edit-btn">Edit</button>
+                        <button class="delete-btn" data-id="${id}" data-type="note-delete-btn">Delete</button>
+                    </div>
                 </div>
-            </div>
+              </div>
         `
         )
         .join(''));
