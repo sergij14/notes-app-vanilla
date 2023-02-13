@@ -6,20 +6,27 @@
   .app {
     @apply px-4 max-w-6xl mx-auto;
   }
+
   .app-header {
     @apply flex justify-between items-center py-4 mb-4 border-b-2 border-gray-300;
   }
+
   .app-notes-list {
-    @apply flex py-2;
+    @apply flex py-2 space-x-6;
+  }
+
+  .app-notes-list > div {
+    max-width: calc(100% / 4);
+    flex: 0 0 calc(100% / 4);
   }
 }
 
 @layer utilities {
   .form-btn {
-    @apply shadow bg-blue-500 hover:bg-blue-400 focus:outline-none text-white font-bold py-2 px-4 rounded
+    @apply shadow bg-blue-500 hover:bg-blue-400 focus:outline-none text-white font-bold py-2 px-4 rounded;
   }
 
   .form-input {
-    @apply bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full p-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500
+    @apply bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full p-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500;
   }
 }
