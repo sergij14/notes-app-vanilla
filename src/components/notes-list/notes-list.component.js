@@ -7,9 +7,7 @@ export class NotesList extends AppComponent {
   constructor($root, options) {
     super($root, {
       name: 'NotesList',
-      listeners: [
-        'click',
-      ],
+      listeners: ['click'],
       ...options,
     });
   }
@@ -17,9 +15,7 @@ export class NotesList extends AppComponent {
   init() {
     super.init();
 
-    this.$notesContainer = document.querySelector(
-        '[data-type=\'notes-container\']'
-    );
+    this.$notesContainer = this.$root.find('[data-type=\'notes-container\']');
     this.$storeSubscribe((state) => {
       console.log(state);
       this.renderNotes(state.notes);
@@ -46,9 +42,10 @@ export class NotesList extends AppComponent {
   }
 
   renderNotes(notes) {
-    this.$notesContainer.innerHTML = notes.map(
-        ({title, description, id}) =>
-          `
+    this.$notesContainer.html(notes
+        .map(
+            ({title, description, id}) =>
+              `
             <div class="p-4 rounded-lg shadow-lg bg-white">
                 <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">${title}</h5>
                 <p class="text-gray-700 text-base mb-4">
@@ -60,6 +57,7 @@ export class NotesList extends AppComponent {
                 </div>
             </div>
         `
-    ).join('');
+        )
+        .join(''));
   }
 }

@@ -30,7 +30,7 @@ export class HeaderForm extends AppComponent {
     evt.preventDefault();
     const formData = new FormData(evt.target);
     const formProps = Object.fromEntries(formData);
-    const editID = this.$form.getAttribute('data-edit');
+    const editID = this.$form.attr('data-edit');
 
     if (editID) {
       this.$storeDispatch({
@@ -61,22 +61,22 @@ export class HeaderForm extends AppComponent {
         ?.notes?.find((note) => note.id === noteID);
 
     if (note) {
-      this.$form.setAttribute('data-edit', noteID);
+      this.$form.attr('data-edit', noteID);
     }
 
     this.renderFields(note);
-    this.$formOverlay?.classList.remove('hidden');
+    this.$formOverlay.removeClass('hidden');
   }
 
   closeForm() {
     this.clearFields();
-    this.$form.removeAttribute('data-edit');
-    this.$formOverlay?.classList.add('hidden');
+    this.$form.removeAttr('data-edit');
+    this.$formOverlay.addClass('hidden');
   }
 
   renderFields(data) {
-    this.$form.innerHTML = '';
-    this.$form.innerHTML = `
+    this.$form.html('');
+    this.$form.html(`
       <input value="${
   data?.title || ''
 }" class="form-input" type="text" name="title" placeholder="Note title" />
@@ -84,11 +84,11 @@ export class HeaderForm extends AppComponent {
   data?.description || ''
 }</textarea>
       <button class="form-btn self-center" type="submit">Submit</button>
-    `;
+    `);
   }
 
   clearFields() {
-    this.$form.innerHTML = '';
+    this.$form.html('');
   }
 }
 
