@@ -11,13 +11,16 @@ export class NoteForm extends AppComponent {
       listeners: ['submit', 'mousedown'],
       ...options,
     });
+    this.formError = '';
+    this.isValid = false;
   }
 
   init() {
     super.init();
 
     this.$formOverlay = this.$root.find('[data-type=\'note-form-overlay\']');
-    this.$form = this.$root.find('form');
+    this.$formError = this.$root.find('[data-type=\'note-form-error\']');
+    this.$formFields = this.$root.find('[data-type=\'note-form-fields\']');
     this.$subscribe('notes-list: edit-note', (noteID) => {
       this.openForm(noteID);
     });
@@ -37,7 +40,7 @@ export class NoteForm extends AppComponent {
 
     if (this.noteToEdit) {
       delete this.noteToEdit.id;
-      this.$form.attr('data-edit', noteID);
+      this.$formFields.attr('data-edit', noteID);
     }
 
     this.renderFields(this.noteToEdit);
@@ -49,22 +52,33 @@ export class NoteForm extends AppComponent {
     this.closeForm();
   }
 
+  formValidator(formData, editID) {
+    this.isValid = Object.values(formData).every((val) => val.length);
+    this.formError = !this.isValid && 'Form is empty';
+
+    if (editID) {
+      this.isValid = !shallowEqual(formData, this.noteToEdit);
+      this.formError = !this.isValid && 'Form is not modified';
+    }
+  }
+
   onSubmit(evt) {
     evt.preventDefault();
     const formData = new FormData(evt.target);
     const formProps = Object.fromEntries(formData);
-    const editID = this.$form.attr('data-edit');
+    const editID = this.$formFields.attr('data-edit');
 
-    const isValid = formValidator(formProps, editID ? this.noteToEdit : null);
+    this.formValidator(formProps, editID);
 
     const action = {
       type: editID ? 'EDIT_NOTE' : 'SAVE_NOTE',
       payload: {...formProps, id: editID || generateID()},
     };
 
-    if (isValid) {
+    if (this.isValid) {
       return this.saveNote(action);
     }
+    this.renderError();
   }
 
   onMousedown(evt) {
@@ -78,32 +92,29 @@ export class NoteForm extends AppComponent {
   }
 
   closeForm() {
-    this.clearFields();
-    this.$form.removeAttr('data-edit');
+    this.$formFields.removeAttr('data-edit');
     this.$formOverlay.addClass('hidden');
+    this.$formFields.html('');
+    this.$formError.html('');
   }
 
   renderFields(data) {
-    this.$form.html('');
-    this.$form.html(`
+    this.$formFields.html('');
+    this.$formFields.html(`
         <input value="${
   data?.title || ''
 }" class="form-input" type="text" name="title" placeholder="Note title" />
-        <textarea class="form-input resize-y max-h-56" name="description" placeholder="Note description">${
+                  <textarea class="form-input resize-y max-h-56" name="description" placeholder="Note description">${
   data?.description || ''
 }</textarea>
         <button class="form-btn self-center" type="submit">Submit</button>
       `);
   }
 
-  clearFields() {
-    this.$form.html('');
+  renderError() {
+    this.$formError.html('');
+    this.$formError.html(`
+      <p class="text-red-500 mb-4">${this.formError}</p>
+    `);
   }
-}
-
-function formValidator(formData, noteToEdit) {
-  if (noteToEdit) {
-    return !shallowEqual(formData, noteToEdit);
-  }
-  return Object.values(formData).every((val) => val.length);
 }
