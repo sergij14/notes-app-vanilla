@@ -4,8 +4,12 @@ export class AppComponent extends DOMListener {
   constructor($root, config={}) {
     super($root, config.listeners);
     this.name = config.name;
+
     this.emitter = config.emitter;
     this.unsubscribers = [];
+
+    this.store = config.store;
+    this.storeSub = null;
 
     this.prepare();
   }
@@ -25,6 +29,14 @@ export class AppComponent extends DOMListener {
     this.unsubscribers.push(unsub);
   }
 
+  $storeDispatch(action) {
+    this.store.dispatch(action);
+  }
+
+  $storeSubscribe(fn) {
+    this.storeSub = this.store.subscribe(fn);
+  }
+
   init() {
     this.initDOMListeners();
   }
@@ -32,5 +44,6 @@ export class AppComponent extends DOMListener {
   destroy() {
     this.removeDOMListeners();
     this.unsubscribers.forEach((unsub) => unsub());
+    this.storeSub.unsubscribe();
   }
 }
