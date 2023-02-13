@@ -16,8 +16,8 @@ export class NotesList extends AppComponent {
     super.init();
 
     this.$notesContainer = this.$root.find('[data-type=\'notes-container\']');
+    this.renderNotes(this.store.getState().notes);
     this.$storeSubscribe((state) => {
-      console.log(state);
       this.renderNotes(state.notes);
     });
   }
@@ -42,10 +42,11 @@ export class NotesList extends AppComponent {
   }
 
   renderNotes(notes) {
-    this.$notesContainer.html(notes
-        .map(
-            ({title, description, id}) =>
-              `
+    this.$notesContainer.html(
+        notes
+            .map(
+                ({title, description, id}) =>
+                  `
               <div class="px-4 py-6">
                 <div class="p-4 rounded-lg shadow-lg bg-white">
                     <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">${title}</h5>
@@ -59,7 +60,8 @@ export class NotesList extends AppComponent {
                 </div>
               </div>
         `
-        )
-        .join(''));
+            )
+            .join('')
+    );
   }
 }
