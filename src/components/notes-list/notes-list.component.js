@@ -46,7 +46,7 @@ export class NotesList extends AppComponent {
         .map(
             ({title, description, id}) =>
               `
-              <div class="px-4">
+              <div class="px-4 py-6">
                 <div class="p-4 rounded-lg shadow-lg bg-white">
                     <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">${title}</h5>
                     <p class="text-gray-700 text-base mb-4">
