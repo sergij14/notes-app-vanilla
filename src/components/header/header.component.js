@@ -9,7 +9,7 @@ export class Header extends AppComponent {
         name: 'Header',
         listeners: [
           'submit',
-          'click',
+          'mousedown',
         ],
       });
     }
@@ -26,15 +26,15 @@ export class Header extends AppComponent {
       console.log(formProps);
     }
 
-    onClick(evt) {
+    onMousedown(evt) {
       const $formOverlay = document.querySelector('[data-id=\'note-form-overlay\']');
 
       if (evt.target.dataset.id === 'note-form-btn') {
-        $formOverlay.classList.remove('hidden');
+        $formOverlay?.classList.remove('hidden');
       }
 
       if (evt.target.dataset.id === 'note-form-overlay') {
-        $formOverlay.classList.add('hidden');
+        $formOverlay?.classList.add('hidden');
       }
     }
 }
