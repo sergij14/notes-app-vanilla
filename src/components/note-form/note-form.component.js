@@ -18,9 +18,9 @@ export class NoteForm extends AppComponent {
   init() {
     super.init();
 
-    this.$formOverlay = this.$root.find('[data-type=\'note-form-overlay\']');
-    this.$formError = this.$root.find('[data-type=\'note-form-error\']');
-    this.$formFields = this.$root.find('[data-type=\'note-form-fields\']');
+    this.$formOverlay = this.$root.findByDataType('note-form-overlay');
+    this.$formError = this.$root.findByDataType('note-form-error');
+    this.$formFields = this.$root.findByDataType('note-form-fields');
     this.$subscribe('notes-list: edit-note', (noteID) => {
       this.openForm(noteID);
     });

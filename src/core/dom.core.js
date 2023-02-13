@@ -27,6 +27,10 @@ class DOM {
     return $(this.$el.querySelector(selector));
   }
 
+  findByDataType(dataType) {
+    return $(this.$el.querySelector(`[data-type='${dataType}']`));
+  }
+
   addClass(className) {
     this.$el.classList.add(className);
     return this;

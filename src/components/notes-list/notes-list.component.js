@@ -15,7 +15,7 @@ export class NotesList extends AppComponent {
   init() {
     super.init();
 
-    this.$notesContainer = this.$root.find('[data-type=\'notes-container\']');
+    this.$notesContainer = this.$root.findByDataType('notes-container');
     this.renderNotes(this.store.getState().notes);
     this.$storeSubscribe((state) => {
       this.renderNotes(state.notes);
@@ -43,7 +43,8 @@ export class NotesList extends AppComponent {
 
   renderNotes(notes) {
     this.$notesContainer.html(
-        notes.length ? notes
+      notes.length ?
+        notes
             .map(
                 ({title, description, id}) =>
                   `
@@ -61,7 +62,8 @@ export class NotesList extends AppComponent {
               </div>
         `
             )
-            .join('') : '<p class="px-2 md:px-4 py-6">No items...</p>'
+            .join('') :
+        '<p class="px-2 md:px-4 py-6">No items...</p>'
     );
   }
 }
