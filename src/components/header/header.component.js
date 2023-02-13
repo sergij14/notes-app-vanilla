@@ -17,7 +17,9 @@ export class Header extends AppComponent {
   }
 
   onClick(evt) {
-    if (evt.target.dataset.type === 'note-form-btn') {
+    const {type} = evt.target.dataset;
+
+    if (type === 'note-form-btn') {
       this.$emit('header: create-note');
     }
   }

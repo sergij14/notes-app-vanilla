@@ -81,11 +81,13 @@ export class NoteForm extends AppComponent {
   }
 
   onMousedown(evt) {
-    if (evt.target.dataset.type === 'note-form-btn') {
+    const {type} = evt.target.dataset;
+
+    if (type === 'note-form-btn') {
       this.openForm();
     }
 
-    if (evt.target.dataset.type === 'note-form-overlay') {
+    if (type === 'note-form-overlay') {
       this.closeForm();
     }
   }
