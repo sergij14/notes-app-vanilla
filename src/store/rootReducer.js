@@ -3,12 +3,14 @@ export function rootReducer(state, action) {
   switch (action.type) {
     case 'SAVE_NOTE':
       return {
-        ...state, notes: [...notes, action.payload],
+        ...state,
+        notes: [...notes, action.payload],
       };
 
     case 'EDIT_NOTE':
       return {
-        ...state, notes: notes.map((note) => {
+        ...state,
+        notes: notes.map((note) => {
           if (note.id === action.payload.id) {
             return {
               ...note,
@@ -17,6 +19,12 @@ export function rootReducer(state, action) {
           }
           return note;
         }),
+      };
+
+    case 'DELETE_NOTE':
+      return {
+        ...state,
+        notes: notes.filter((note) => note.id !== action.payload),
       };
 
     default:

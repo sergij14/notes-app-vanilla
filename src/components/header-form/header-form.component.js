@@ -39,7 +39,6 @@ export class HeaderForm extends AppComponent {
         type: 'EDIT_NOTE',
         payload: {...formProps, id: editID},
       });
-      console.log({...formProps, id: editID});
     } else {
       this.$storeDispatch({
         type: 'SAVE_NOTE',

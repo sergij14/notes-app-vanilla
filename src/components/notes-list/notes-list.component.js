@@ -36,6 +36,13 @@ export class NotesList extends AppComponent {
     if (type === 'note-edit-btn') {
       this.$emit('notes-list: edit-note', id);
     }
+
+    if (type === 'note-delete-btn') {
+      this.$storeDispatch({
+        type: 'DELETE_NOTE',
+        payload: id,
+      });
+    }
   }
 
   renderNotes(notes) {
