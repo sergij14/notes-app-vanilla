@@ -19,8 +19,8 @@ export class HeaderForm extends AppComponent {
         '[data-type=\'note-form-overlay\']'
     );
     this.$form = this.$formOverlay.querySelector('form');
-    this.$subscribe('notes-list: edit-note', (noteId) => {
-      this.openForm();
+    this.$subscribe('notes-list: edit-note', (noteID) => {
+      this.openForm(noteID);
     });
   }
 
@@ -32,6 +32,7 @@ export class HeaderForm extends AppComponent {
     evt.preventDefault();
     const formData = new FormData(evt.target);
     const formProps = Object.fromEntries(formData);
+    formProps.id = generateID();
 
     this.$storeDispatch({type: 'SAVE_NOTE', payload: formProps});
   }
@@ -46,8 +47,10 @@ export class HeaderForm extends AppComponent {
     }
   }
 
-  openForm() {
-    this.renderFields();
+  openForm(noteID) {
+    const note = this.store.getState()?.notes?.find((note) => note.id === noteID);
+
+    this.renderFields(note);
     this.$formOverlay?.classList.remove('hidden');
   }
 
@@ -62,9 +65,9 @@ export class HeaderForm extends AppComponent {
       <input value="${
   data?.title || ''
 }" class="form-input" type="text" name="title" placeholder="Note title" />
-      <textarea value="${
+      <textarea class="form-input resize-y max-h-56" name="description" placeholder="Note description">${
   data?.description || ''
-}" class="form-input resize-y max-h-56" name="description" placeholder="Note description"></textarea>
+}</textarea>
       <button class="form-btn self-center" type="submit">Submit</button>
     `;
   }
@@ -72,4 +75,11 @@ export class HeaderForm extends AppComponent {
   clearFields() {
     this.$form.innerHTML = '';
   }
+}
+
+
+function generateID() {
+  return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
 }
