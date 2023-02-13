@@ -30,10 +30,10 @@
   }
 
   .edit-btn {
-    @apply bg-blue-500 hover:bg-blue-400 focus:outline-none text-white text-xs px-3 py-1 font-medium rounded;
+    @apply bg-blue-500 hover:bg-blue-400 focus:outline-none text-white text-xs px-[8px] py-[4px] font-medium rounded;
   }
 
   .delete-btn {
-    @apply bg-red-500 hover:bg-red-400 focus:outline-none text-white text-xs px-3 py-1 font-medium rounded;
+    @apply bg-red-500 hover:bg-red-400 focus:outline-none text-white text-xs px-[8px] py-[4px] font-medium rounded;
   }
 }
