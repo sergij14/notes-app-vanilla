@@ -8,16 +8,34 @@ const notesData = [
     description: 'description......',
   },
   {
-    id: 1,
+    id: 2,
     title: 'note2',
     description: 'description......',
   },
 ];
 
 export class NotesList extends AppComponent {
-    static cn = 'app-notes-list'
+  static cn = 'app-notes-list';
 
-    toHTML() {
-      return getNotesListTemplate(notesData);
+  constructor($root, options) {
+    super($root, {
+      name: 'NotesList',
+      listeners: [
+        'click',
+      ],
+      ...options,
+    });
+  }
+
+  toHTML() {
+    return getNotesListTemplate(notesData);
+  }
+
+  onClick(evt) {
+    const {type, id} = evt.target.dataset;
+
+    if (type === 'note-edit-btn') {
+      this.emitter.emit('NotesList: edit-note', id);
     }
+  }
 }

@@ -4,13 +4,22 @@ import {getHeaderFormTemplate} from './header-form.template';
 export class HeaderForm extends AppComponent {
     static cn = 'app-header'
 
-    constructor($root) {
+    constructor($root, options) {
       super($root, {
         name: 'HeaderForm',
         listeners: [
           'submit',
           'mousedown',
         ],
+        ...options,
+      });
+    }
+
+    init() {
+      super.init();
+
+      this.emitter.subscribe('NotesList: edit-note', (noteId) => {
+        console.log(noteId);
       });
     }
 
@@ -27,13 +36,13 @@ export class HeaderForm extends AppComponent {
     }
 
     onMousedown(evt) {
-      const $formOverlay = document.querySelector('[data-id=\'note-form-overlay\']');
+      const $formOverlay = document.querySelector('[data-type=\'note-form-overlay\']');
 
-      if (evt.target.dataset.id === 'note-form-btn') {
+      if (evt.target.dataset.type === 'note-form-btn') {
         $formOverlay?.classList.remove('hidden');
       }
 
-      if (evt.target.dataset.id === 'note-form-overlay') {
+      if (evt.target.dataset.type === 'note-form-overlay') {
         $formOverlay?.classList.add('hidden');
       }
     }
