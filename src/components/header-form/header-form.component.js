@@ -43,6 +43,7 @@ export class HeaderForm extends AppComponent {
         payload: {...formProps, id: generateID()},
       });
     }
+    this.closeForm();
   }
 
   onMousedown(evt) {
