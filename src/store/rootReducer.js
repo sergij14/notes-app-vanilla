@@ -15,6 +15,7 @@ export function rootReducer(state, action) {
               ...action.payload,
             };
           }
+          return note;
         }),
       };
 
