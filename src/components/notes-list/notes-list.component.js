@@ -52,8 +52,8 @@ export class NotesList extends AppComponent {
                     ${description}
                 </p>
                 <div class="flex space-x-2">
-                    <button data-id="${id}" data-type="note-edit-btn">Edit</button>
-                    <button data-id="${id}" data-type="note-delete-btn">Delete</button>
+                    <button class="edit-btn" data-id="${id}" data-type="note-edit-btn">Edit</button>
+                    <button class="delete-btn" data-id="${id}" data-type="note-delete-btn">Delete</button>
                 </div>
             </div>
         `
