@@ -1,12 +1,12 @@
 import {AppComponent} from '../../core/app-component.core';
-import {getHeaderTemplate} from './header.template';
+import {getHeaderFormTemplate} from './header-form.template';
 
-export class Header extends AppComponent {
+export class HeaderForm extends AppComponent {
     static cn = 'app-header'
 
     constructor($root) {
       super($root, {
-        name: 'Header',
+        name: 'HeaderForm',
         listeners: [
           'submit',
           'mousedown',
@@ -15,7 +15,7 @@ export class Header extends AppComponent {
     }
 
     toHTML() {
-      return getHeaderTemplate();
+      return getHeaderFormTemplate();
     }
 
     onSubmit(evt) {
