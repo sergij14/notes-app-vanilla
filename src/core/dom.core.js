@@ -1,6 +1,9 @@
 class DOM {
   constructor(selector) {
-    this.$el = typeof selector === 'string' ? document.querySelector(selector) : selector;
+    this.$el =
+      typeof selector === 'string' ?
+        document.querySelector(selector) :
+        selector;
   }
 
   html(template) {
@@ -21,7 +24,30 @@ class DOM {
   }
 
   find(selector) {
-    return this.$el.querySelector(selector);
+    return $(this.$el.querySelector(selector));
+  }
+
+  addClass(className) {
+    this.$el.classList.add(className);
+    return this;
+  }
+
+  removeClass(className) {
+    this.$el.classList.remove(className);
+    return this;
+  }
+
+  attr(name, value) {
+    if (value) {
+      this.$el.setAttribute(name, value);
+      return this;
+    }
+    return this.$el.getAttribute(name);
+  }
+
+  removeAttr(attr) {
+    this.$el.removeAttribute(attr);
+    return this;
   }
 
   append(node) {
@@ -46,7 +72,7 @@ export function $(selector) {
   return new DOM(selector);
 }
 
-$.create = (tagName, classes='') => {
+$.create = (tagName, classes = '') => {
   const el = document.createElement(tagName);
   if (classes) {
     el.classList.add(classes);
