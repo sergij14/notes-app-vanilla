@@ -14,8 +14,6 @@ export class App {
 
       const component = new Component($el);
       $el.html(component.toHTML());
-
-      console.log($root);
       $root.append($el);
 
       return component;

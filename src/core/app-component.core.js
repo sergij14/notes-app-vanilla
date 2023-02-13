@@ -13,4 +13,8 @@ export class AppComponent extends DOMListener {
   init() {
     this.initDOMListeners();
   }
+
+  destroy() {
+    this.removeDOMListeners();
+  }
 }

@@ -8,4 +8,3 @@ const app = new App('#root', {
 });
 
 app.render();
-console.log('app', app);

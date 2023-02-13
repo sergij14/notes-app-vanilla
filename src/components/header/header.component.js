@@ -20,6 +20,6 @@ export class Header extends AppComponent {
     }
 
     onInput(evt) {
-      console.log('formula:event', evt.target.value);
+      console.log('header:event', evt.target.value);
     }
 }
