@@ -20,7 +20,10 @@ export class Header extends AppComponent {
 
     onSubmit(evt) {
       evt.preventDefault();
-      console.log('submitted');
+      const formData = new FormData(evt.target);
+      const formProps = Object.fromEntries(formData);
+
+      console.log(formProps);
     }
 
     onClick(evt) {
