@@ -43,7 +43,7 @@ export class NotesList extends AppComponent {
 
   renderNotes(notes) {
     this.$notesContainer.html(
-        notes
+        notes.length ? notes
             .map(
                 ({title, description, id}) =>
                   `
@@ -61,7 +61,7 @@ export class NotesList extends AppComponent {
               </div>
         `
             )
-            .join('')
+            .join('') : '<p class="px-2 md:px-4">No items...</p>'
     );
   }
 }
