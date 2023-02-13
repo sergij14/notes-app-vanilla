@@ -70,12 +70,11 @@ export class NoteForm extends AppComponent {
 
     this.formValidator(formProps, editID);
 
-    const action = {
-      type: editID ? 'EDIT_NOTE' : 'SAVE_NOTE',
-      payload: {...formProps, id: editID || generateID()},
-    };
-
     if (this.isValid) {
+      const action = {
+        type: editID ? 'EDIT_NOTE' : 'SAVE_NOTE',
+        payload: {...formProps, id: editID || generateID()},
+      };
       return this.saveNote(action);
     }
     this.renderError();
