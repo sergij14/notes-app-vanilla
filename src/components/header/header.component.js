@@ -7,7 +7,7 @@ export class Header extends AppComponent {
   constructor($root, options) {
     super($root, {
       name: 'Header',
-      listeners: ['mousedown'],
+      listeners: ['click'],
       ...options,
     });
   }
@@ -16,7 +16,7 @@ export class Header extends AppComponent {
     return getHeaderTemplate();
   }
 
-  onMousedown(evt) {
+  onClick(evt) {
     if (evt.target.dataset.type === 'note-form-btn') {
       this.$emit('header: create-note');
     }
