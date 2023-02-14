@@ -1,4 +1,5 @@
 import {createStore} from '../core/store.core';
+import {storage} from '../core/utils.core';
 import {rootReducer} from './rootReducer';
 
 const initialState = storage('notes-state') ?
@@ -13,10 +14,3 @@ store.subscribe((state) => {
   console.log(state);
   storage('notes-state', state);
 });
-
-export function storage(key, data) {
-  if (!data) {
-    return JSON.parse(localStorage.getItem(key));
-  }
-  localStorage.setItem(key, JSON.stringify(data));
-}
