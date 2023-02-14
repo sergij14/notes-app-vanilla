@@ -10,11 +10,7 @@ export class AppComponent extends DOMListener {
 
     this.store = config.store;
     this.storeSub = null;
-
-    this.prepare();
   }
-
-  prepare() {}
 
   toHTML() {
     return '';
