@@ -25,7 +25,10 @@ export function storage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
 
-
 export function checkEmptyValues(obj) {
   return Object.values(obj).some((val) => val.length);
+}
+
+export function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
