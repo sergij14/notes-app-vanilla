@@ -102,14 +102,10 @@ export class NoteForm extends AppComponent {
   renderFields(data) {
     this.$formFields.html('');
     this.$formFields.html(`
-        <input value="${
-  data?.title || ''
-}" class="form-input" type="text" name="title" placeholder="Note title" />
-                  <textarea class="form-input resize-y max-h-56" name="description" placeholder="Note description">${
-  data?.description || ''
-}</textarea>
-        <button class="form-btn self-center" type="submit">Submit</button>
-      `);
+      <input value="${data?.title || ''}" class="form-input" type="text" name="title" placeholder="Note title" />
+      <textarea class="form-input resize-y max-h-56" name="description" placeholder="Note description">${ data?.description || ''}</textarea>
+      <button class="form-btn self-center" type="submit">Submit</button>
+    `);
   }
 
   renderError() {
