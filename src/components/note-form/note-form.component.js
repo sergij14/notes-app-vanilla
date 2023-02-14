@@ -13,6 +13,7 @@ export class NoteForm extends AppComponent {
     });
     this.formError = '';
     this.isValid = false;
+    this.noteToEdit = {};
   }
 
   init() {
@@ -34,12 +35,9 @@ export class NoteForm extends AppComponent {
   }
 
   openForm(noteID) {
-    this.noteToEdit = this.store
-        .getState()
-        .notes.find((note) => note.id === noteID);
+    this.noteToEdit = this.store.getState().notes[noteID];
 
     if (this.noteToEdit) {
-      delete this.noteToEdit.id;
       this.$formFields.attr('data-edit', noteID);
     }
 
@@ -57,7 +55,9 @@ export class NoteForm extends AppComponent {
     this.formError = !this.isValid && 'Form is empty';
 
     if (editID) {
-      this.isValid = !shallowEqual(formData, this.noteToEdit);
+      const editedNote = {...this.noteToEdit};
+      delete editedNote.id;
+      this.isValid = !shallowEqual(formData, editedNote);
       this.formError = !this.isValid && 'Form is not modified';
     }
   }
@@ -102,8 +102,12 @@ export class NoteForm extends AppComponent {
   renderFields(data) {
     this.$formFields.html('');
     this.$formFields.html(`
-      <input value="${data?.title || ''}" class="form-input" type="text" name="title" placeholder="Note title" />
-      <textarea class="form-input resize-y max-h-56" name="description" placeholder="Note description">${ data?.description || ''}</textarea>
+      <input value="${
+  data?.title || ''
+}" class="form-input" type="text" name="title" placeholder="Note title" />
+      <textarea class="form-input resize-y max-h-56" name="description" placeholder="Note description">${
+  data?.description || ''
+}</textarea>
     `);
   }
 

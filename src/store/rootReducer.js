@@ -1,30 +1,23 @@
 export function rootReducer(state, action) {
-  const notes = state.notes || [];
+  const notes = {...state.notes} || {};
   switch (action.type) {
     case 'SAVE_NOTE':
       return {
         ...state,
-        notes: [...notes, action.payload],
+        notes: {...notes, [action.payload.id]: {...action.payload}},
       };
 
     case 'EDIT_NOTE':
+      notes[action.payload.id] = {...action.payload};
       return {
         ...state,
-        notes: notes.map((note) => {
-          if (note.id === action.payload.id) {
-            return {
-              ...note,
-              ...action.payload,
-            };
-          }
-          return note;
-        }),
+        notes: {...notes},
       };
 
     case 'DELETE_NOTE':
+      delete state.notes[action.payload];
       return {
         ...state,
-        notes: notes.filter((note) => note.id !== action.payload),
       };
 
     default:

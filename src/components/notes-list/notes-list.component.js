@@ -42,12 +42,14 @@ export class NotesList extends AppComponent {
   }
 
   renderNotes(notes) {
+    const notesToRender = Object.keys(notes).map((key) => notes[key]);
+
     this.$notesContainer.html(
-      notes.length ?
-        notes
-            .map(
-                ({title, description, id}) =>
-                  `
+      notesToRender.length ?
+      notesToRender
+          .map(
+              ({title, description, id}) =>
+                `
               <div class="px-2 md:px-4 py-6">
                 <div class="relative px-4 pb-2 pt-8 rounded-lg shadow-lg bg-white break-words word">
                     <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">${title}</h5>
@@ -61,8 +63,8 @@ export class NotesList extends AppComponent {
                 </div>
               </div>
         `
-            )
-            .join('') :
+          )
+          .join('') :
         '<p class="px-2 md:px-4 py-6">No items...</p>'
     );
   }
