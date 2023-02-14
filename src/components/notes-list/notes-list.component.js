@@ -48,13 +48,13 @@ export class NotesList extends AppComponent {
             .map(
                 ({title, description, id}) =>
                   `
-              <div class="px-2 md:px-4 py-6 relative">
-                <div class="p-4 rounded-lg shadow-lg bg-white">
+              <div class="px-2 md:px-4 py-6">
+                <div class="relative px-4 pb-2 pt-8 rounded-lg shadow-lg bg-white break-words word">
                     <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">${title}</h5>
                     <p class="text-gray-700 text-base mb-4">
                         ${description}
                     </p>
-                    <div class="flex space-x-2 absolute top-10 right-6">
+                    <div class="flex justify-between w-full space-x-2 px-4 absolute -top-1 left-0">
                         <button class="edit-btn" data-id="${id}" data-type="note-edit-btn">Edit</button>
                         <button class="delete-btn" data-id="${id}" data-type="note-delete-btn">x</button>
                     </div>
