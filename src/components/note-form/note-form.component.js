@@ -1,5 +1,9 @@
 import {AppComponent} from '../../core/app-component.core';
-import {generateID, shallowEqual} from '../../core/utils.core';
+import {
+  checkEmptyValues,
+  generateID,
+  shallowEqual,
+} from '../../core/utils.core';
 import {getNoteFormTemplate} from './note-form.template';
 
 export class NoteForm extends AppComponent {
@@ -51,12 +55,13 @@ export class NoteForm extends AppComponent {
   }
 
   formValidator(formData, editID) {
-    this.isValid = Object.values(formData).every((val) => val.length);
+    this.isValid = checkEmptyValues(formData);
     this.formError = !this.isValid && 'Form is empty';
 
-    if (editID) {
+    if (editID && checkEmptyValues(formData)) {
       const editedNote = {...this.noteToEdit};
       delete editedNote.id;
+
       this.isValid = !shallowEqual(formData, editedNote);
       this.formError = !this.isValid && 'Form is not modified';
     }
