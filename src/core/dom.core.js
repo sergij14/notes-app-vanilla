@@ -14,6 +14,12 @@ class DOM {
     return this.$el.outerHTML.trim();
   }
 
+  insertHtml(template, place='beforeend') {
+    this.$el.insertAdjacentHTML(place, template);
+
+    return this;
+  }
+
   clear() {
     this.html('');
     return this;

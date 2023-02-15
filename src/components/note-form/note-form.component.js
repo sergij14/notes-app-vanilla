@@ -1,9 +1,5 @@
 import {AppComponent} from '../../core/app-component.core';
-import {
-  checkEmptyValues,
-  generateID,
-  shallowEqual,
-} from '../../core/utils.core';
+import {Form} from '../../core/form.core';
 import {getNoteFormTemplate} from './note-form.template';
 
 export class NoteForm extends AppComponent {
@@ -12,20 +8,36 @@ export class NoteForm extends AppComponent {
   constructor($root, options) {
     super($root, {
       name: 'NoteForm',
-      listeners: ['submit', 'mousedown'],
+      listeners: ['mousedown'],
       ...options,
     });
-    this.formError = '';
-    this.isValid = false;
+    this.options = options;
+
     this.noteToEdit = {};
+    this.$formOverlay = null;
   }
 
   init() {
     super.init();
 
+    const formFields = {
+      title: {
+        cn: 'form-input',
+        placeholder: 'Note title',
+      },
+      description: {
+        cn: 'form-input',
+        placeholder: 'Note description',
+        tag: 'textarea',
+        selfClosing: false,
+      },
+    };
+
     this.$formOverlay = this.$root.findByDataType('note-form-overlay');
-    this.$formError = this.$root.findByDataType('note-form-error');
-    this.$formFields = this.$root.findByDataType('note-form-fields');
+    this.form = new Form(this.$formOverlay, this.options);
+    this.form.init();
+    this.form.renderFields(formFields);
+
     this.$subscribe('notes-list: edit-note', (noteID) => {
       this.openForm(noteID);
     });
@@ -41,48 +53,8 @@ export class NoteForm extends AppComponent {
   openForm(noteID) {
     this.noteToEdit = this.store.getState().notes[noteID];
 
-    if (this.noteToEdit) {
-      this.$formFields.attr('data-edit', noteID);
-    }
-
-    this.renderFields(this.noteToEdit);
+    console.log(this.noteToEdit);
     this.$formOverlay.removeClass('hidden');
-  }
-
-  saveNote(action) {
-    this.$storeDispatch(action);
-    this.closeForm();
-  }
-
-  formValidator(formData, editID) {
-    this.isValid = checkEmptyValues(formData);
-    this.formError = !this.isValid && 'Form is empty';
-
-    if (editID && checkEmptyValues(formData)) {
-      const editedNote = {...this.noteToEdit};
-      delete editedNote.id;
-
-      this.isValid = !shallowEqual(formData, editedNote);
-      this.formError = !this.isValid && 'Form is not modified';
-    }
-  }
-
-  onSubmit(evt) {
-    evt.preventDefault();
-    const formData = new FormData(evt.target);
-    const formProps = Object.fromEntries(formData);
-    const editID = this.$formFields.attr('data-edit');
-
-    this.formValidator(formProps, editID);
-
-    if (this.isValid) {
-      const action = {
-        type: editID ? 'EDIT_NOTE' : 'SAVE_NOTE',
-        payload: {...formProps, id: editID || generateID()},
-      };
-      return this.saveNote(action);
-    }
-    this.renderError();
   }
 
   onMousedown(evt) {
@@ -98,24 +70,6 @@ export class NoteForm extends AppComponent {
   }
 
   closeForm() {
-    this.$formFields.removeAttr('data-edit');
     this.$formOverlay.addClass('hidden');
-    this.$formFields.html('');
-    this.$formError.html('');
-  }
-
-  renderFields(data) {
-    this.$formFields.html('');
-    this.$formFields.html(`
-      <input value="${data?.title || ''}" class="form-input" type="text" name="title" placeholder="Note title" />
-      <textarea class="form-input resize-y max-h-56" name="description" placeholder="Note description">${data?.description || ''}</textarea>
-    `);
-  }
-
-  renderError() {
-    this.$formError.html('');
-    this.$formError.html(`
-      <p class="text-red-500 mb-4">${this.formError}</p>
-    `);
   }
 }
