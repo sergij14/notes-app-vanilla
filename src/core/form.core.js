@@ -1,5 +1,5 @@
 import {AppComponent} from './app-component.core';
-import {checkEmptyValues} from './utils.core';
+import {getFieldTemplate, hasValues} from './utils.core';
 
 export class Form extends AppComponent {
   static cn = 'app-form';
@@ -7,12 +7,14 @@ export class Form extends AppComponent {
   constructor($root, {onFormSubmit, ...options}) {
     super($root, {
       name: 'Form',
-      listeners: ['submit'],
+      listeners: ['submit', 'input'],
       ...options,
     });
     this.$root = $root;
+
     this.onFormSubmit = onFormSubmit;
 
+    this.touched = false;
     this.formError = '';
     this.isValid = false;
 
@@ -29,21 +31,32 @@ export class Form extends AppComponent {
   }
 
   formValidator(formData) {
-    this.isValid = checkEmptyValues(formData);
-    this.formError = !this.isValid ? 'Form is empty' : '';
+    if (!this.touched) {
+      this.formError = 'Form is not modified';
+      this.isValid = false;
+      return;
+    }
+
+    this.isValid = hasValues(formData);
+    this.formError = !this.isValid ? 'Form is not filled' : '';
   }
 
   onSubmit(evt) {
     evt.preventDefault();
     const formData = Object.fromEntries(new FormData(evt.target));
-    this.formValues = {...this.formValues, ...formData};
     this.formValidator(formData);
+
+    this.formValues = {...this.formValues, ...formData};
 
     if (this.isValid) {
       this.clearForm();
-      this.onFormSubmit(this.formValues);
+      return this.onFormSubmit(this.formValues);
     }
     this.renderError();
+  }
+
+  onInput() {
+    this.touched = true;
   }
 
   toHTML() {
@@ -63,25 +76,15 @@ export class Form extends AppComponent {
 
   renderFields(formFields, data) {
     this.$formFields.html('');
+    this.touched = false;
+
     if (data) {
       this.formValues = {...data};
     }
 
-    Object.keys(formFields).forEach((key) => {
-      const {
-        tag = 'input',
-        cn = '',
-        type = 'text',
-        value = '',
-        placeholder = '',
-        selfClosing = true,
-      } = formFields[key];
-      const formValue = data?.[key] || value;
-
-      this.$formFields.insertHtml(`
-        <${tag} name="${key}" type="${type}" class="${cn}" value="${formValue}" placeholder="${placeholder}" ${
-        selfClosing ? '/>' : '>' + formValue + '</' + tag + '>'}
-      `);
+    formFields.forEach((field) => {
+      field.value = data?.[field.name] || '';
+      this.$formFields.insertHtml(getFieldTemplate(field));
     });
   }
 

@@ -1,17 +1,3 @@
-export function shallowEqual(object1, object2) {
-  const keys1 = Object.keys(object1);
-  const keys2 = Object.keys(object2);
-  if (keys1.length !== keys2.length) {
-    return false;
-  }
-  for (const key of keys1) {
-    if (object1[key] !== object2[key]) {
-      return false;
-    }
-  }
-  return true;
-}
-
 export function generateID() {
   return Math.floor((1 + Math.random()) * 0x10000)
       .toString(16)
@@ -25,10 +11,28 @@ export function storage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
 
-export function checkEmptyValues(obj) {
-  return Object.values(obj).some((val) => val.length);
+export function hasValues(obj) {
+  return Object.values(obj).every((val) => val.length);
 }
 
 export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function getFieldTemplate(config) {
+  const {
+    value = '',
+    placeholder = '',
+    classes = '',
+    name = '',
+    type = 'text',
+  } = config;
+  switch (type) {
+    case 'number':
+      return `<input value="${value}" name="${name}" class="${classes}" type="${type}" min="1" max="10" placeholder="${placeholder}" />`;
+    case 'text-area':
+      return `<textarea name="${name}" class="${classes}" placeholder="${placeholder}">${value}</textarea>`;
+    default:
+      return `<input value="${value}" name="${name}" class="${classes}" type="text" placeholder="${placeholder}" />`;
+  }
 }

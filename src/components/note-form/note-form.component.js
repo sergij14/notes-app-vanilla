@@ -5,6 +5,20 @@ import {getNoteFormTemplate} from './note-form.template';
 
 export class NoteForm extends AppComponent {
   static cn = 'app-note-form';
+  static formFields = [
+    {
+      name: 'title',
+      type: 'text',
+      classes: 'form-input',
+      placeholder: 'Note title',
+    },
+    {
+      name: 'description',
+      type: 'text-area',
+      classes: 'form-input',
+      placeholder: 'Note description',
+    },
+  ];
 
   constructor($root, options) {
     super($root, {
@@ -15,19 +29,6 @@ export class NoteForm extends AppComponent {
     this.options = options;
 
     this.$formOverlay = null;
-
-    this.formFields = {
-      title: {
-        cn: 'form-input',
-        placeholder: 'Note title',
-      },
-      description: {
-        cn: 'form-input',
-        placeholder: 'Note description',
-        tag: 'textarea',
-        selfClosing: false,
-      },
-    };
   }
 
   init() {
@@ -62,7 +63,7 @@ export class NoteForm extends AppComponent {
   openForm(noteID) {
     const noteToEdit = this.store.getState().notes[noteID];
 
-    this.form.renderFields(this.formFields, noteToEdit);
+    this.form.renderFields(NoteForm.formFields, noteToEdit);
     this.$formOverlay.removeClass('hidden');
   }
 
