@@ -1,16 +1,16 @@
 import {AppComponent} from './app-component.core';
+import {checkEmptyValues} from './utils.core';
 
 export class Form extends AppComponent {
   static cn = 'app-form';
 
-  constructor($root, props, options) {
+  constructor($root, options) {
     super($root, {
       name: 'Form',
       listeners: ['submit'],
       ...options,
     });
     this.$root = $root;
-    this.props = props;
 
     this.formError = '';
     this.isValid = false;
@@ -27,9 +27,24 @@ export class Form extends AppComponent {
     this.$formFields = this.$root.findByDataType('note-form-fields');
   }
 
+  formValidator(formData, isEditForm) {
+    this.isValid = checkEmptyValues(formData);
+    this.formError = !this.isValid ? 'Form is empty' : '';
+  }
+
   onSubmit(evt) {
     evt.preventDefault();
-    console.log(evt);
+    const formData = new FormData(evt.target);
+    const formValues = Object.fromEntries(formData);
+
+    this.formValidator(formValues);
+
+    if (this.isValid) {
+      console.log('valid');
+      this.clearForm();
+      this.$emit('form: form-valid');
+    }
+    this.renderError();
   }
 
   toHTML() {
@@ -42,9 +57,12 @@ export class Form extends AppComponent {
     `;
   }
 
+  clearForm() {
+    this.$formFields.html('');
+    this.$formError.html('');
+  }
 
-  renderFields(formFields) {
-    console.log(this.$formFields);
+  renderFields(formFields, data) {
     this.$formFields.html('');
     Object.keys(formFields).forEach((key) => {
       const {
@@ -55,10 +73,11 @@ export class Form extends AppComponent {
         placeholder = '',
         selfClosing = true,
       } = formFields[key];
+      const formValue = data[key] || value;
 
       this.$formFields.insertHtml(`
-        <${tag} name="${key}" type="${type}" class="${cn}" value="${value}" placeholder="${placeholder}" ${
-        selfClosing ? '/>' : '>' + value + '</' + tag + '>'}
+        <${tag} name="${key}" type="${type}" class="${cn}" value="${formValue}" placeholder="${placeholder}" ${
+        selfClosing ? '/>' : '>' + formValue + '</' + tag + '>'}
       `);
     });
   }

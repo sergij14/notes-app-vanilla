@@ -13,14 +13,9 @@ export class NoteForm extends AppComponent {
     });
     this.options = options;
 
-    this.noteToEdit = {};
     this.$formOverlay = null;
-  }
 
-  init() {
-    super.init();
-
-    const formFields = {
+    this.formFields = {
       title: {
         cn: 'form-input',
         placeholder: 'Note title',
@@ -32,18 +27,18 @@ export class NoteForm extends AppComponent {
         selfClosing: false,
       },
     };
+  }
+
+  init() {
+    super.init();
 
     this.$formOverlay = this.$root.findByDataType('note-form-overlay');
     this.form = new Form(this.$formOverlay, this.options);
     this.form.init();
-    this.form.renderFields(formFields);
 
-    this.$subscribe('notes-list: edit-note', (noteID) => {
-      this.openForm(noteID);
-    });
-    this.$subscribe('header: create-note', () => {
-      this.openForm();
-    });
+    this.$subscribe('notes-list: edit-note', (noteID) => this.openForm(noteID));
+    this.$subscribe('header: create-note', () => this.openForm());
+    this.$subscribe('form: form-valid', () => this.closeForm());
   }
 
   toHTML() {
@@ -51,9 +46,9 @@ export class NoteForm extends AppComponent {
   }
 
   openForm(noteID) {
-    this.noteToEdit = this.store.getState().notes[noteID];
+    const noteToEdit = this.store.getState().notes[noteID];
 
-    console.log(this.noteToEdit);
+    this.form.renderFields(this.formFields, noteToEdit);
     this.$formOverlay.removeClass('hidden');
   }
 
