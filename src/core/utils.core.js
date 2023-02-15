@@ -38,10 +38,10 @@ export function getFieldTemplate(config) {
 }
 
 export function getNodeByDataType(node, type) {
-  if (node.dataset.type === type) {
+  if (node?.dataset.type === type) {
     return node;
   }
-  if (node.id === 'root') {
+  if (node === document.body) {
     return;
   }
   return getNodeByDataType(node.parentElement, type);
