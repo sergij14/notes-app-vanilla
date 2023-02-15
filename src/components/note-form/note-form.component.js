@@ -1,5 +1,6 @@
 import {AppComponent} from '../../core/app-component.core';
 import {Form} from '../../core/form.core';
+import {generateID} from '../../core/utils.core';
 import {getNoteFormTemplate} from './note-form.template';
 
 export class NoteForm extends AppComponent {
@@ -48,7 +49,13 @@ export class NoteForm extends AppComponent {
   }
 
   onFormSubmit(formData) {
-    console.log(formData);
+    const {formValues, isEdit} = formData;
+
+    const action = {
+      type: isEdit ? 'EDIT_NOTE' : 'SAVE_NOTE',
+      payload: {...formValues, id: generateID()},
+    };
+    this.$storeDispatch(action);
     this.closeForm();
   }
 

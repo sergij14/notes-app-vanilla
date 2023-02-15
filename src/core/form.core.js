@@ -28,7 +28,7 @@ export class Form extends AppComponent {
     this.$formFields = this.$root.findByDataType('note-form-fields');
   }
 
-  formValidator(formData, isEditForm) {
+  formValidator(formData, isEdit) {
     this.isValid = checkEmptyValues(formData);
     this.formError = !this.isValid ? 'Form is empty' : '';
   }
