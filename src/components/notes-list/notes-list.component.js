@@ -60,7 +60,7 @@ export class NotesList extends AppComponent {
       notesToRender.length ?
       notesToRender
           .map(
-              ({title, description, priority, id}) =>
+              ({title='', description='', priority='', id=''}) =>
                 `
               <div class="px-2 md:px-4 py-6">
                 <div class="relative px-4 pb-2 pt-8 rounded-lg shadow-lg bg-white break-words word">
