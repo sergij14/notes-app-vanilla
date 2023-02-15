@@ -1,4 +1,5 @@
 import {AppComponent} from '../../core/app-component.core';
+import {getNodeByDataType} from '../../core/utils.core';
 import {getNotesListTemplate} from './notes-list.template';
 
 export class NotesList extends AppComponent {
@@ -29,15 +30,17 @@ export class NotesList extends AppComponent {
   onClick(evt) {
     const {type, id} = evt.target.dataset;
 
-    if (type === 'note-edit-btn') {
-      this.$emit('notes-list: edit-note', id);
-    }
-
     if (type === 'note-delete-btn') {
-      this.$storeDispatch({
+      return this.$storeDispatch({
         type: 'DELETE_NOTE',
         payload: id,
       });
+    }
+
+    const $note = getNodeByDataType(evt.target, 'note');
+
+    if ($note) {
+      this.$emit('notes-list: edit-note', $note.dataset.id);
     }
   }
 
@@ -62,11 +65,8 @@ export class NotesList extends AppComponent {
           .map(
               ({title='', description='', priority=0, id=''}) =>
                 `<div class="app-note-wrapper">
-                  <div class="app-note">
-                      <div class="flex justify-between w-full space-x-2 mb-4">
-                        <button class="edit-btn" data-id="${id}" data-type="note-edit-btn">Edit</button>
-                        <button class="delete-btn" data-id="${id}" data-type="note-delete-btn">x</button>
-                      </div>
+                  <div class="app-note" data-type="note" data-id="${id}">
+                      <button class="delete-btn absolute -top-2 -right-2" data-id="${id}" data-type="note-delete-btn">x</button>
                       <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">${title}</h5>
                       <p class="text-gray-700 text-base mb-4">
                         ${description}

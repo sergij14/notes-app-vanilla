@@ -36,3 +36,13 @@ export function getFieldTemplate(config) {
       return `<input value="${value}" name="${name}" class="${classes}" type="text" placeholder="${placeholder}" />`;
   }
 }
+
+export function getNodeByDataType(node, type) {
+  if (node.dataset.type === type) {
+    return node;
+  }
+  if (node.id === 'root') {
+    return;
+  }
+  return getNodeByDataType(node.parentElement, type);
+}
