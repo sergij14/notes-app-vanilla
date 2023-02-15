@@ -12,11 +12,15 @@
   }
 
   .app-notes-list {
-    @apply py-2;
+    @apply py-4
+  } 
+
+  .app-note-wrapper {
+    @apply px-2 md:px-4 pt-0 pb-4 w-full sm:max-w-[calc(100%_/_2)] sm:basis-[calc(100%_/_2)] md:max-w-[calc(100%_/_3)] md:basis-[calc(100%_/_3)] lg:max-w-[calc(100%_/_4)] lg:basis-[calc(100%_/_4)] flex-grow-0 flex-shrink-0;
   }
 
-  .app-notes-list > div > div {
-    @apply w-full sm:max-w-[calc(100%_/_2)] sm:basis-[calc(100%_/_2)] md:max-w-[calc(100%_/_3)] md:basis-[calc(100%_/_3)] lg:max-w-[calc(100%_/_4)] lg:basis-[calc(100%_/_4)] flex-grow-0 flex-shrink-0;
+  .app-note {
+    @apply p-4 border border-gray-200 hover:cursor-pointer hover:border-gray-300 rounded-lg bg-white break-words;
   }
 }
 
