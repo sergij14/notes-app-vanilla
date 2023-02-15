@@ -28,21 +28,20 @@ export class Form extends AppComponent {
     this.$formFields = this.$root.findByDataType('note-form-fields');
   }
 
-  formValidator(formData, isEdit) {
+  formValidator(formData) {
     this.isValid = checkEmptyValues(formData);
     this.formError = !this.isValid ? 'Form is empty' : '';
   }
 
   onSubmit(evt) {
     evt.preventDefault();
-    const formData = new FormData(evt.target);
-    const formValues = Object.fromEntries(formData);
-
-    this.formValidator(formValues);
+    const formData = Object.fromEntries(new FormData(evt.target));
+    this.formValues = {...this.formValues, ...formData};
+    this.formValidator(this.formValues);
 
     if (this.isValid) {
       this.clearForm();
-      this.onFormSubmit({formValues});
+      this.onFormSubmit(this.formValues);
     }
     this.renderError();
   }
@@ -64,6 +63,10 @@ export class Form extends AppComponent {
 
   renderFields(formFields, data) {
     this.$formFields.html('');
+    if (data) {
+      this.formValues = {...data};
+    }
+
     Object.keys(formFields).forEach((key) => {
       const {
         tag = 'input',

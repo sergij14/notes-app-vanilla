@@ -49,11 +49,11 @@ export class NoteForm extends AppComponent {
   }
 
   onFormSubmit(formData) {
-    const {formValues, isEdit} = formData;
+    const noteID = formData['id'];
 
     const action = {
-      type: isEdit ? 'EDIT_NOTE' : 'SAVE_NOTE',
-      payload: {...formValues, id: generateID()},
+      type: noteID ? 'EDIT_NOTE' : 'SAVE_NOTE',
+      payload: {...formData, id: noteID || generateID()},
     };
     this.$storeDispatch(action);
     this.closeForm();
@@ -80,5 +80,6 @@ export class NoteForm extends AppComponent {
 
   closeForm() {
     this.$formOverlay.addClass('hidden');
+    this.form.clearForm();
   }
 }
