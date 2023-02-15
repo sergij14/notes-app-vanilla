@@ -77,10 +77,7 @@ export class Form extends AppComponent {
   renderFields(formFields, data) {
     this.$formFields.html('');
     this.touched = false;
-
-    if (data) {
-      this.formValues = {...data};
-    }
+    this.formValues = data ? {...data} : {};
 
     formFields.forEach((field) => {
       field.value = data?.[field.name] || '';
