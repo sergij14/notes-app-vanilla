@@ -90,8 +90,6 @@ export class Form extends AppComponent {
 
   renderError() {
     this.$formError.html('');
-    this.$formError.html(`
-            <p class="text-red-500 mb-4">${this.formError}</p>
-        `);
+    this.$formError.html(`<p class="text-red-500 mb-4">${this.formError}</p>`);
   }
 }
