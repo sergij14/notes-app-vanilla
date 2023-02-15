@@ -73,7 +73,7 @@ export class Form extends AppComponent {
         placeholder = '',
         selfClosing = true,
       } = formFields[key];
-      const formValue = data[key] || value;
+      const formValue = data?.[key] || value;
 
       this.$formFields.insertHtml(`
         <${tag} name="${key}" type="${type}" class="${cn}" value="${formValue}" placeholder="${placeholder}" ${
