@@ -33,16 +33,23 @@ export class NoteForm extends AppComponent {
     super.init();
 
     this.$formOverlay = this.$root.findByDataType('note-form-overlay');
-    this.form = new Form(this.$formOverlay, this.options);
+    this.form = new Form(this.$formOverlay, {
+      onFormSubmit: this.onFormSubmit.bind(this),
+      ...this.options,
+    });
     this.form.init();
 
     this.$subscribe('notes-list: edit-note', (noteID) => this.openForm(noteID));
     this.$subscribe('header: create-note', () => this.openForm());
-    this.$subscribe('form: form-valid', () => this.closeForm());
   }
 
   toHTML() {
     return getNoteFormTemplate();
+  }
+
+  onFormSubmit(formData) {
+    console.log(formData);
+    this.closeForm();
   }
 
   openForm(noteID) {

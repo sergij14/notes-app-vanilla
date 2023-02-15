@@ -4,13 +4,14 @@ import {checkEmptyValues} from './utils.core';
 export class Form extends AppComponent {
   static cn = 'app-form';
 
-  constructor($root, options) {
+  constructor($root, {onFormSubmit, ...options}) {
     super($root, {
       name: 'Form',
       listeners: ['submit'],
       ...options,
     });
     this.$root = $root;
+    this.onFormSubmit = onFormSubmit;
 
     this.formError = '';
     this.isValid = false;
@@ -40,9 +41,8 @@ export class Form extends AppComponent {
     this.formValidator(formValues);
 
     if (this.isValid) {
-      console.log('valid');
       this.clearForm();
-      this.$emit('form: form-valid');
+      this.onFormSubmit({formValues});
     }
     this.renderError();
   }
