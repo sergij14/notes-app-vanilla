@@ -13,6 +13,12 @@ export class NoteForm extends AppComponent {
       placeholder: 'Note title',
     },
     {
+      name: 'priority',
+      type: 'number',
+      classes: 'form-input',
+      placeholder: 'Note priority',
+    },
+    {
       name: 'description',
       type: 'text-area',
       classes: 'form-input',

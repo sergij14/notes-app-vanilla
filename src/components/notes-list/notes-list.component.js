@@ -41,6 +41,18 @@ export class NotesList extends AppComponent {
     }
   }
 
+  getPriorityColor(num) {
+    if (num >= 7) {
+      return 'red';
+    }
+    if (num >= 4) {
+      return 'orange';
+    }
+    if (num < 4) {
+      return 'green';
+    }
+  }
+
   renderNotes(notes) {
     const notesToRender = Object.keys(notes).map((key) => notes[key]);
 
@@ -48,13 +60,16 @@ export class NotesList extends AppComponent {
       notesToRender.length ?
       notesToRender
           .map(
-              ({title, description, id}) =>
+              ({title, description, priority, id}) =>
                 `
               <div class="px-2 md:px-4 py-6">
                 <div class="relative px-4 pb-2 pt-8 rounded-lg shadow-lg bg-white break-words word">
                     <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">${title}</h5>
                     <p class="text-gray-700 text-base mb-4">
-                        ${description}
+                      ${description}
+                    </p>
+                    <p class="text-gray-700 text-sm text-right">
+                      Priority: <span class="font-semibold" style="color: ${this.getPriorityColor(priority)}">${priority}</span>
                     </p>
                     <div class="flex justify-between w-full space-x-2 px-4 absolute -top-1 left-0">
                         <button class="edit-btn" data-id="${id}" data-type="note-edit-btn">Edit</button>
