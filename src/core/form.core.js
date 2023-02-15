@@ -37,7 +37,7 @@ export class Form extends AppComponent {
     evt.preventDefault();
     const formData = Object.fromEntries(new FormData(evt.target));
     this.formValues = {...this.formValues, ...formData};
-    this.formValidator(this.formValues);
+    this.formValidator(formData);
 
     if (this.isValid) {
       this.clearForm();
