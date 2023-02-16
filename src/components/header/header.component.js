@@ -18,16 +18,20 @@ export class Header extends AppComponent {
     super.init();
 
     this.$deleteBtn = this.$root.findByDataType('note-delete-btn');
-    this.$storeSubscribe(({selected}) => {
-      if (selected.length > 1) {
-        return this.$deleteBtn.removeClass('hidden');
-      }
-      this.$deleteBtn.addClass('hidden');
-    });
+
+    this.renderDeleteBtn(this.store.getState().selected.length);
+    this.$storeSubscribe(({selected}) => this.renderDeleteBtn(selected.length));
   }
 
   toHTML() {
     return getHeaderTemplate();
+  }
+
+  renderDeleteBtn(length) {
+    if (length > 1) {
+      return this.$deleteBtn.removeClass('hidden');
+    }
+    this.$deleteBtn.addClass('hidden');
   }
 
   onClick(evt) {
