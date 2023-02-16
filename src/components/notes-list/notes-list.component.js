@@ -92,7 +92,7 @@ export class NotesList extends AppComponent {
             `
             )
             .join('') :
-        '<p class="px-2 md:px-4 py-6">No items...</p>'
+        '<p class="px-2 py-2">No items...</p>'
     );
   }
 }
