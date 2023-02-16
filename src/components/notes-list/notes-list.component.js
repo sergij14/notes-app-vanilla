@@ -77,20 +77,18 @@ export class NotesList extends AppComponent {
             .map(
                 ({title = '', description = '', priority = 0, id = ''}) =>
                   `<div class="app-note-wrapper">
-                  <div class="app-note" data-type="note" data-id="${id}">
+                    <div class="app-note" data-type="note" data-id="${id}">
                       <button class="delete-btn absolute -top-2 -right-2" data-id="${id}" data-type="note-delete-btn">x</button>
                       <input ${this.getIsSelected(id) ? 'checked' : ''} type="checkbox" class="absolute -bottom-1 -left-1 w-4 h-4" data-id="${id}" data-type="note-select-input" />
-                      <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">${title}</h5>
-                      <p class="text-gray-700 text-base mb-4">
+                      <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2 select-none">${title}</h5>
+                      <p class="text-gray-700 text-base mb-4 select-none">
                         ${description}
                       </p>
-                      <p class="text-gray-700 text-sm text-right">
-                        Priority: <span class="font-semibold" style="color: ${this.getPriorityColor(
-                      priority
-                  )}">${priority}</span>
+                      <p class="text-gray-700 text-sm text-right select-none">
+                        Priority: <span class="font-semibold" style="color: ${this.getPriorityColor(priority)}">${priority}</span>
                       </p>
+                    </div>
                   </div>
-                </div>
             `
             )
             .join('') :

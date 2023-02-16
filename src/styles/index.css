@@ -20,7 +20,7 @@
   }
 
   .app-note {
-    @apply relative p-4 border border-gray-200 hover:cursor-pointer hover:border-gray-300 rounded-lg bg-white break-words;
+    @apply relative p-4 border border-gray-200 hover:cursor-pointer hover:border-blue-400 rounded-lg bg-white break-words;
   }
 }
 
