@@ -5,7 +5,7 @@ import {getNoteFormTemplate} from './note-form.template';
 
 export class NoteForm extends AppComponent {
   static cn = 'app-note-form';
-  static formFields = [
+  static formConfig = [
     {
       name: 'title',
       type: 'text',
@@ -43,6 +43,7 @@ export class NoteForm extends AppComponent {
     this.$formOverlay = this.$root.findByDataType('note-form-overlay');
     this.form = new Form(this.$formOverlay, {
       onFormSubmit: this.onFormSubmit.bind(this),
+      formConfig: NoteForm.formConfig,
       ...this.options,
     });
     this.form.init();
@@ -69,7 +70,7 @@ export class NoteForm extends AppComponent {
   openForm(noteID) {
     const noteToEdit = this.store.getState().notes[noteID];
 
-    this.form.renderFields(NoteForm.formFields, noteToEdit);
+    this.form.renderFields(noteToEdit);
     this.$formOverlay.removeClass('hidden');
   }
 

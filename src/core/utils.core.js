@@ -19,24 +19,6 @@ export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export function getFieldTemplate(config) {
-  const {
-    value = '',
-    placeholder = '',
-    classes = '',
-    name = '',
-    type = 'text',
-  } = config;
-  switch (type) {
-    case 'number':
-      return `<input value="${value}" name="${name}" class="${classes}" type="${type}" min="1" max="10" placeholder="${placeholder}" />`;
-    case 'text-area':
-      return `<textarea name="${name}" class="${classes}" placeholder="${placeholder}">${value}</textarea>`;
-    default:
-      return `<input value="${value}" name="${name}" class="${classes}" type="text" placeholder="${placeholder}" />`;
-  }
-}
-
 export function getNodeByDataType(node, type) {
   if (node?.dataset.type === type) {
     return node;

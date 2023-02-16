@@ -1,10 +1,10 @@
 import {AppComponent} from './app-component.core';
-import {getFieldTemplate, hasValues} from './utils.core';
+import {hasValues} from './utils.core';
 
 export class Form extends AppComponent {
   static cn = 'app-form';
 
-  constructor($root, {onFormSubmit, ...options}) {
+  constructor($root, {onFormSubmit, formConfig, ...options}) {
     super($root, {
       name: 'Form',
       listeners: ['submit', 'input'],
@@ -13,7 +13,9 @@ export class Form extends AppComponent {
     this.$root = $root;
 
     this.onFormSubmit = onFormSubmit;
+    this.formConfig = formConfig;
 
+    this.formValues = {};
     this.touched = false;
     this.formError = '';
     this.isValid = false;
@@ -74,12 +76,12 @@ export class Form extends AppComponent {
     this.$formError.html('');
   }
 
-  renderFields(formFields, data) {
+  renderFields(data) {
     this.$formFields.html('');
     this.touched = false;
     this.formValues = data ? {...data} : {};
 
-    formFields.forEach((field) => {
+    this.formConfig.forEach((field) => {
       field.value = data?.[field.name] || '';
       this.$formFields.insertHtml(getFieldTemplate(field));
     });
@@ -88,5 +90,23 @@ export class Form extends AppComponent {
   renderError() {
     this.$formError.html('');
     this.$formError.html(`<p class="text-red-500 mb-4">${this.formError}</p>`);
+  }
+}
+
+export function getFieldTemplate(config) {
+  const {
+    value = '',
+    placeholder = '',
+    classes = '',
+    name = '',
+    type = 'text',
+  } = config;
+  switch (type) {
+    case 'number':
+      return `<input value="${value}" name="${name}" class="${classes}" type="${type}" min="1" max="10" placeholder="${placeholder}" />`;
+    case 'text-area':
+      return `<textarea name="${name}" class="${classes}" placeholder="${placeholder}">${value}</textarea>`;
+    default:
+      return `<input value="${value}" name="${name}" class="${classes}" type="text" placeholder="${placeholder}" />`;
   }
 }
