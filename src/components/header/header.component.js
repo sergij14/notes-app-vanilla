@@ -10,6 +10,20 @@ export class Header extends AppComponent {
       listeners: ['click'],
       ...options,
     });
+
+    this.$deleteBtn = null;
+  }
+
+  init() {
+    super.init();
+
+    this.$deleteBtn = this.$root.findByDataType('note-delete-btn');
+    this.$storeSubscribe(({selected}) => {
+      if (selected.length > 1) {
+        return this.$deleteBtn.removeClass('hidden');
+      }
+      this.$deleteBtn.addClass('hidden');
+    });
   }
 
   toHTML() {
@@ -21,6 +35,12 @@ export class Header extends AppComponent {
 
     if (type === 'note-form-btn') {
       this.$emit('header: create-note');
+    }
+
+    if (type === 'note-delete-btn') {
+      this.$storeDispatch({
+        type: 'DELETE_SELECTED_NOTES',
+      });
     }
   }
 }

@@ -12,8 +12,8 @@
   }
 
   .app-notes-list {
-    @apply py-4
-  } 
+    @apply py-4;
+  }
 
   .app-note-wrapper {
     @apply px-2 pt-0 pb-4 w-full sm:max-w-[calc(100%_/_2)] sm:basis-[calc(100%_/_2)] md:max-w-[calc(100%_/_3)] md:basis-[calc(100%_/_3)] lg:max-w-[calc(100%_/_4)] lg:basis-[calc(100%_/_4)] flex-grow-0 flex-shrink-0;
@@ -25,8 +25,16 @@
 }
 
 @layer utilities {
-  .form-btn {
-    @apply bg-blue-500 hover:bg-blue-400 focus:outline-none text-white font-bold py-2 px-4 rounded;
+  .btn {
+    @apply focus:outline-none text-white font-bold py-2 px-4 rounded;
+  }
+
+  .form-primary-btn {
+    @apply bg-blue-500 hover:bg-blue-400 btn;
+  }
+
+  .form-delete-btn {
+    @apply bg-red-500 hover:bg-red-400 btn;
   }
 
   .form-input {

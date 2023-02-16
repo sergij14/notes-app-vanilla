@@ -1,6 +1,8 @@
+const deleteIDFromSelected = (selected, idToDelete) => [...selected.filter((id) => id !== idToDelete)];
+
 export function rootReducer(state, action) {
   const notes = {...state.notes};
-  const selected = [...state.selected];
+  let selected = [...state.selected];
 
   switch (action.type) {
     case 'SAVE_NOTE':
@@ -17,9 +19,27 @@ export function rootReducer(state, action) {
       };
 
     case 'DELETE_NOTE':
-      delete state.notes[action.payload];
+      delete notes[action.payload];
+      if (selected.includes(action.payload)) {
+        selected = deleteIDFromSelected(selected, action.payload);
+      }
       return {
         ...state,
+        notes: {...notes},
+        selected: [...selected],
+      };
+
+    case 'DELETE_SELECTED_NOTES':
+      selected.forEach((id) => {
+        delete notes[id];
+        if (selected.includes(id)) {
+          selected = deleteIDFromSelected(selected, id);
+        }
+      });
+      return {
+        ...state,
+        notes: {...notes},
+        selected: [...selected],
       };
 
     case 'SELECT_NOTE':
@@ -31,7 +51,7 @@ export function rootReducer(state, action) {
     case 'UNSELECT_NOTE':
       return {
         ...state,
-        selected: [...selected.filter((id) => id !== action.payload)],
+        selected: deleteIDFromSelected(selected, action.payload),
       };
 
     default:

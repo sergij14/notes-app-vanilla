@@ -18,8 +18,8 @@ export class NotesList extends AppComponent {
 
     this.$notesContainer = this.$root.findByDataType('notes-container');
     this.renderNotes(this.store.getState().notes);
-    this.$storeSubscribe((state) => {
-      this.renderNotes(state.notes);
+    this.$storeSubscribe(({notes}) => {
+      this.renderNotes(notes);
     });
   }
 
