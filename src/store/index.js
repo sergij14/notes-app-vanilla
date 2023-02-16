@@ -7,13 +7,13 @@ const defaultState = {
   selected: [],
 };
 
-const initialState = storage('notes-app-state') ?
-  storage('notes-app-state') :
+const initialState = storage('notes-app-store') ?
+  storage('notes-app-store') :
   defaultState;
 
 export const store = createStore(rootReducer, initialState);
 
 store.subscribe((state) => {
   console.log(state);
-  storage('notes-app-state', state);
+  storage('notes-app-store', state);
 });
