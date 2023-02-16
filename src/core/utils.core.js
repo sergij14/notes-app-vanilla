@@ -28,3 +28,12 @@ export function getNodeByDataType(node, type) {
   }
   return getNodeByDataType(node.parentElement, type);
 }
+
+export function hasSameValues(a, b) {
+  for (const key in a) {
+    if (a[key] !== b[key]) {
+      return false;
+    }
+  }
+  return true;
+}

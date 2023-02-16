@@ -1,5 +1,5 @@
 import {AppComponent} from './app-component.core';
-import {hasValues} from './utils.core';
+import {hasSameValues, hasValues} from './utils.core';
 
 export class Form extends AppComponent {
   static cn = 'app-form';
@@ -34,13 +34,19 @@ export class Form extends AppComponent {
 
   formValidator(formData) {
     if (!this.touched) {
-      this.formError = 'Form is not modified';
+      this.formError = 'Please fill the data';
+      this.isValid = false;
+      return;
+    }
+
+    if (hasSameValues(formData, this.formValues)) {
+      this.formError = 'Note data is not modified';
       this.isValid = false;
       return;
     }
 
     this.isValid = hasValues(formData);
-    this.formError = !this.isValid ? 'Form is not filled' : '';
+    this.formError = !this.isValid ? 'Form is not complete' : '';
   }
 
   onSubmit(evt) {
