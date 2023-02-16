@@ -27,12 +27,24 @@ export class NotesList extends AppComponent {
     return getNotesListTemplate();
   }
 
+  getIsSelected(id) {
+    return this.store.getState().selected.includes(id);
+  }
+
   onClick(evt) {
     const {type, id} = evt.target.dataset;
 
     if (type === 'note-delete-btn') {
       return this.$storeDispatch({
         type: 'DELETE_NOTE',
+        payload: id,
+      });
+    }
+
+    if (type === 'note-select-input') {
+      const isSelected = this.getIsSelected(id);
+      return this.$storeDispatch({
+        type: isSelected ? 'UNSELECT_NOTE' : 'SELECT_NOTE',
         payload: id,
       });
     }
@@ -61,23 +73,28 @@ export class NotesList extends AppComponent {
 
     this.$notesContainer.html(
       notesToRender.length ?
-      notesToRender
-          .map(
-              ({title='', description='', priority=0, id=''}) =>
-                `<div class="app-note-wrapper">
+        notesToRender
+            .map(
+                ({title = '', description = '', priority = 0, id = ''}) =>
+                  `<div class="app-note-wrapper">
                   <div class="app-note" data-type="note" data-id="${id}">
                       <button class="delete-btn absolute -top-2 -right-2" data-id="${id}" data-type="note-delete-btn">x</button>
+                      <input ${this.getIsSelected(id) ? 'checked' : ''} type="checkbox" class="absolute -bottom-1 -left-1 w-4 h-4" data-id="${id}" data-type="note-select-input" />
                       <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">${title}</h5>
                       <p class="text-gray-700 text-base mb-4">
                         ${description}
                       </p>
                       <p class="text-gray-700 text-sm text-right">
-                        Priority: <span class="font-semibold" style="color: ${this.getPriorityColor(priority)}">${priority}</span>
+                        Priority: <span class="font-semibold" style="color: ${this.getPriorityColor(
+                      priority
+                  )}">${priority}</span>
                       </p>
                   </div>
                 </div>
-            `)
-          .join('') : '<p class="px-2 md:px-4 py-6">No items...</p>'
+            `
+            )
+            .join('') :
+        '<p class="px-2 md:px-4 py-6">No items...</p>'
     );
   }
 }

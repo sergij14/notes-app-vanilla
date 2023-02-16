@@ -1,5 +1,7 @@
 export function rootReducer(state, action) {
-  const notes = {...state.notes} || {};
+  const notes = {...state.notes};
+  const selected = [...state.selected];
+
   switch (action.type) {
     case 'SAVE_NOTE':
       return {
@@ -18,6 +20,18 @@ export function rootReducer(state, action) {
       delete state.notes[action.payload];
       return {
         ...state,
+      };
+
+    case 'SELECT_NOTE':
+      return {
+        ...state,
+        selected: [...selected, action.payload],
+      };
+
+    case 'UNSELECT_NOTE':
+      return {
+        ...state,
+        selected: [...selected.filter((id) => id !== action.payload)],
       };
 
     default:

@@ -4,6 +4,7 @@ import {rootReducer} from './rootReducer';
 
 const defaultState = {
   notes: {},
+  selected: [],
 };
 
 const initialState = storage('notes-app-state') ?
