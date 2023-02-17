@@ -39,14 +39,14 @@ export class Form extends AppComponent {
       return;
     }
 
-    if (hasSameValues(formData, this.formValues)) {
-      this.formError = 'Note data is not modified';
+    if (!hasValues(formData)) {
       this.isValid = false;
+      this.formError = !this.isValid ? 'Form is not complete' : '';
       return;
     }
 
-    this.isValid = hasValues(formData);
-    this.formError = !this.isValid ? 'Form is not complete' : '';
+    this.isValid = !hasSameValues(formData, this.formValues);
+    this.formError = !this.isValid ? 'Note data is not modified' : '';
   }
 
   onSubmit(evt) {
