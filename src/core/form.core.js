@@ -34,7 +34,7 @@ export class Form extends AppComponent {
 
   formValidator(formData) {
     if (!this.touched) {
-      this.formError = 'Please fill the data';
+      this.formError = 'Form is not modified';
       this.isValid = false;
       return;
     }
